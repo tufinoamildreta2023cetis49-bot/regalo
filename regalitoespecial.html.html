@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Te quiero mucho Mey 💗✨</title>
+    <link href="https://fonts.googleapis.com/css2?family=Italianno&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #ff69b4 0%, #ff1493 25%, #ff6b9d 50%, #c71585 75%, #ff1493 100%);
+            background-size: 400% 400%;
+            animation: gradientAnimation 15s ease infinite;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+        }
+
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Corazón flotante pequeño */
+        .heart-float {
+            position: absolute;
+            font-size: 2rem;
+            animation: floatUp 6s infinite ease-in;
+            opacity: 0.8;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.8;
+            }
+            90% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(-100vh) translateX(50px);
+                opacity: 0;
+            }
+        }
+
+        /* Centro con corazón grande y mensaje */
+        .center-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 10;
+        }
+
+        .heart-wrapper {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .big-heart {
+            font-size: 200px;
+            line-height: 1;
+            animation: heartBeat 1s infinite;
+            text-shadow: 0 0 20px rgba(255, 20, 147, 0.8),
+                         0 0 40px rgba(255, 20, 147, 0.6),
+                         0 0 60px rgba(255, 105, 180, 0.4);
+            position: relative;
+            z-index: 1;
+        }
+
+        @keyframes heartBeat {
+            0% { transform: scale(1); }
+            25% { transform: scale(1.1); }
+            50% { transform: scale(1); }
+            100% { transform: scale(1); }
+        }
+
+        .message {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.2rem;
+            font-weight: 300;
+            font-style: italic;
+            font-family: 'Italianno', cursive;
+            color: white;
+            text-shadow: 0 0 10px rgba(255, 20, 147, 0.8),
+                         1px 1px 3px rgba(0, 0, 0, 0.5);
+            white-space: nowrap;
+            z-index: 2;
+            min-height: 1.5em;
+        }
+
+        @keyframes typing {
+            from {
+                width: 0;
+            }
+            to {
+                width: 100%;
+            }
+        }
+
+        @keyframes blink {
+            0%, 49% {
+                border-right-color: white;
+            }
+            50%, 100% {
+                border-right-color: transparent;
+            }
+        }
+
+        @keyframes fadeOut {
+            0% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+            }
+        }
+
+        .message.typing {
+            animation: typing 3s steps(30, end) 1s 1 normal both,
+                       blink 0.7s step-end 1s infinite,
+                       fadeOut 0.8s ease-in 4.2s forwards;
+            overflow: hidden;
+            border-right: 3px solid white;
+            display: inline-block;
+            width: 0;
+        }
+
+        .sparkle {
+            position: absolute;
+            font-size: 1.5rem;
+            animation: sparkleAnimation 1.5s infinite;
+        }
+
+        .sparkle:nth-child(1) {
+            top: -40px;
+            left: -50px;
+            animation-delay: 0s;
+        }
+
+        .sparkle:nth-child(2) {
+            top: -40px;
+            right: -50px;
+            animation-delay: 0.3s;
+        }
+
+        .sparkle:nth-child(3) {
+            bottom: -40px;
+            left: -50px;
+            animation-delay: 0.6s;
+        }
+
+        .sparkle:nth-child(4) {
+            bottom: -40px;
+            right: -50px;
+            animation-delay: 0.9s;
+        }
+
+        @keyframes sparkleAnimation {
+            0% {
+                opacity: 0;
+                transform: scale(0);
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="container"></div>
+    
+    <div class="center-content">
+        <div class="heart-wrapper">
+            <div class="big-heart">❤️</div>
+            <div class="message" id="message"></div>
+            <div class="sparkle">✨</div>
+            <div class="sparkle">✨</div>
+            <div class="sparkle">✨</div>
+            <div class="sparkle">✨</div>
+        </div>
+    </div>
+
+    <script>
+        const container = document.getElementById('container');
+        const messageElement = document.getElementById('message');
+        const fullMessage = "Te quiero mucho Mey 💗✨";
+
+        function animateMessage() {
+            messageElement.textContent = '';
+            messageElement.classList.remove('typing');
+            
+            // Forzar reflow para reiniciar la animación
+            void messageElement.offsetWidth;
+            
+            messageElement.textContent = fullMessage;
+            messageElement.classList.add('typing');
+            
+            // Repetir la animación cada 5 segundos
+            setTimeout(animateMessage, 5000);
+        }
+
+        // Iniciar la animación
+        animateMessage();
+
+        const hearts = ['❤️', '💕', '💖', '💗', '💝'];
+        
+        function createFloatingHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart-float');
+            heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+            
+            // Posición aleatoria en el eje X
+            const randomX = Math.random() * window.innerWidth;
+            heart.style.left = randomX + 'px';
+            heart.style.bottom = '-50px';
+            
+            // Duración aleatoria de la animación
+            const duration = 6 + Math.random() * 4;
+            heart.style.animationDuration = duration + 's';
+            
+            // Retraso aleatorio
+            heart.style.animationDelay = Math.random() * 2 + 's';
+            
+            container.appendChild(heart);
+            
+            // Eliminar el elemento después de la animación
+            setTimeout(() => {
+                heart.remove();
+            }, (duration + 2) * 1000);
+        }
+        
+        // Crear corazones flotantes continuamente
+        setInterval(createFloatingHeart, 500);
+        
+        // Crear algunos corazones al inicio
+        for (let i = 0; i < 5; i++) {
+            setTimeout(createFloatingHeart, i * 200);
+        }
+    </script>
+</body>
+</html>
